@@ -5,7 +5,7 @@ import { styles } from "./styles"
 export default function Index() {
   return (
     <View style={styles.container}>
-      <Image source={require("../../app")} style={styles.logo}>
+      <Image source={require("@/assets/logo.png")} style={styles.logo}>
         
       </Image>
       <StatusBar style="auto" />
