@@ -5,6 +5,7 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Filter } from '@/components/Filter';
 import { FilterStatus } from '@/types/FilterStatus';
+import { Item } from '@/components/Item';
 
 const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE]
 
@@ -30,6 +31,11 @@ export default function Home() {
           <Text style={styles.clearText}>Limpar</Text>
         </TouchableOpacity>
         </View>
+        <Item 
+        data={{status: FilterStatus.DONE, description: "Café"}}
+        onRemove={() =>console.log("Remover item")}
+        onStatus={() =>console.log("Alterar Status")}
+        />
       </View>
     </View>
     
