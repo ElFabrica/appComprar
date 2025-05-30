@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, TouchableOpacity , Text, View } from 'react-native';
 import { styles } from "./styles"
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
@@ -26,6 +26,9 @@ export default function Home() {
             <Filter key={status} status={FilterStatus.DONE} isActive/>
           ))
         }
+        <TouchableOpacity style={styles.clearButtom}>
+          <Text style={styles.clearText}>Limpar</Text>
+        </TouchableOpacity>
         </View>
       </View>
     </View>
