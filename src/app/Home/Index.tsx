@@ -20,8 +20,13 @@ export default function Home() {
       </View>
 
       <View style={styles.content}>
-    <Filter status={FilterStatus.DONE} isActive={true} />
-    <Filter status={FilterStatus.PENDING} isActive={false} />
+        <View style={styles.header}>
+        {
+          FILTER_STATUS.map((status) =>(
+            <Filter key={status} status={FilterStatus.DONE} isActive/>
+          ))
+        }
+        </View>
       </View>
     </View>
     
