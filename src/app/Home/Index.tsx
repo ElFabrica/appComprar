@@ -6,7 +6,9 @@ import { Input } from '@/components/Input';
 import { Filter } from '@/components/Filter';
 import { FilterStatus } from '@/types/FilterStatus';
 
-export default function Index() {
+const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE]
+
+export default function Home() {
   return (
     <View style={styles.container}>
       <Image source={require("@/assets/logo.png")} style={styles.logo} >
