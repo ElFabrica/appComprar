@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Image, TouchableOpacity , Text, View, FlatList } from 'react-native';
+import { Image, TouchableOpacity , Text, View, FlatList, Alert } from 'react-native';
 import { styles } from "./styles"
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
@@ -9,17 +9,26 @@ import { FilterStatus } from '@/types/FilterStatus';
 import { Item } from '@/components/Item';
 
 const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE]
-const ITEMS = [
-  
-  {id: "1", status: FilterStatus.DONE, description: "Comprar 1 pacote de café"},
-  {id: "2", status: FilterStatus.PENDING, description: "Comprar 3 pacotes de macarrão"},
-  {id: "3", status: FilterStatus.PENDING, description: "Comprar 3 pacotes de cebolas"}
-  
 
-]
 
 export default function Home() {
     const [filter, setFilter] = useState<FilterStatus>()
+    const [description, setDescription] = useState("")
+    const [Items, setItems] = useState<any>([{}])
+
+    function handleAdd(){
+      if (!description.trim()){
+        return Alert.alert("Adicionar", "Informe a descrição para adicionar.")
+      }
+      const newItem = {
+        id: Math.random().toString(36).substring(2),
+        description,
+        status: FilterStatus.PENDING
+
+      }
+      setItems((prevState) => [...prevState, newItem])
+      setDescription("")
+    }
 
   return (
     <View style={styles.container}>
@@ -27,8 +36,9 @@ export default function Home() {
         
       </Image>
       <View style={styles.form}>
-      <Input placeholder='O que você precisa comprar ?'/>
-      <Button title="Entrar"/>
+      <Input placeholder='O que você precisa comprar ?' onChangeText={setDescription} value={description}/>
+      <Text>{description}</Text>
+      <Button title="Adicionar" onPress={()=> handleAdd()} />
       </View>
 
       <View style={styles.content}>
@@ -48,7 +58,7 @@ export default function Home() {
         </TouchableOpacity>
         </View>
     <FlatList
-      data={ITEMS}
+      data={Items}
       keyExtractor={(item) => item.id}
       renderItem={({item}) =>(  
         <Item 
