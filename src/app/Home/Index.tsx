@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Image, TouchableOpacity , Text, View, FlatList, Alert } from 'react-native';
 import { styles } from "./styles"
@@ -7,6 +7,7 @@ import { Input } from '@/components/Input';
 import { Filter } from '@/components/Filter';
 import { FilterStatus } from '@/types/FilterStatus';
 import { Item } from '@/components/Item';
+import {itemsStorge, ItemStorge} from "@/storage/itemsStorage"
 
 const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE]
 
@@ -14,7 +15,7 @@ const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE]
 export default function Home() {
     const [filter, setFilter] = useState<FilterStatus>()
     const [description, setDescription] = useState("")
-    const [Items, setItems] = useState<any>([{}])
+    const [Items, setItems] = useState<ItemStorge[]>([])
 
     function handleAdd(){
       if (!description.trim()){
@@ -29,6 +30,22 @@ export default function Home() {
       setItems((prevState) => [...prevState, newItem])
       setDescription("")
     }
+
+    async function getItems(){
+      try{
+      const response = await itemsStorge.get()
+      setItems(response)
+      } catch (error) {
+        Alert.alert("Erro", "Não foi possível filtar os itens")
+      }
+    }
+
+    useEffect(()=>{
+      getItems()
+    }, [])
+
+    
+
 
   return (
     <View style={styles.container}>
