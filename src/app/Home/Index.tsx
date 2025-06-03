@@ -13,11 +13,11 @@ const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE]
 
 
 export default function Home() {
-    const [filter, setFilter] = useState<FilterStatus>()
+    const [filter, setFilter] = useState<FilterStatus>(FilterStatus.PENDING)
     const [description, setDescription] = useState("")
     const [Items, setItems] = useState<ItemStorge[]>([])
 
-    function handleAdd(){
+    async function handleAdd(){
       if (!description.trim()){
         return Alert.alert("Adicionar", "Informe a descrição para adicionar.")
       }
@@ -27,13 +27,17 @@ export default function Home() {
         status: FilterStatus.PENDING
 
       }
-      setItems((prevState) => [...prevState, newItem])
+      await itemsStorge.add(newItem)
+      await itemsByStatus()
       setDescription("")
+      setFilter(FilterStatus.PENDING)
+
+      Alert.alert("Adicionado", `Adicionado ${description}`)
     }
 
-    async function getItems(){
+    async function itemsByStatus(){
       try{
-      const response = await itemsStorge.get()
+      const response = await itemsStorge.getByStatus(filter)
       setItems(response)
       } catch (error) {
         Alert.alert("Erro", "Não foi possível filtar os itens")
@@ -41,11 +45,8 @@ export default function Home() {
     }
 
     useEffect(()=>{
-      getItems()
-    }, [])
-
-    
-
+      itemsByStatus()
+    }, [filter])
 
   return (
     <View style={styles.container}>
@@ -54,7 +55,6 @@ export default function Home() {
       </Image>
       <View style={styles.form}>
       <Input placeholder='O que você precisa comprar ?' onChangeText={setDescription} value={description}/>
-      <Text>{description}</Text>
       <Button title="Adicionar" onPress={()=> handleAdd()} />
       </View>
 
