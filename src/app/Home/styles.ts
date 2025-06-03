@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#d0d2d8',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 35
 
   },
   logo: {
@@ -16,7 +17,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 16,
     gap: 7,
-    marginTop: 42
+    marginTop: 20
   },
   content: {
     flex: 1,
