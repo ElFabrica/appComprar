@@ -17,6 +17,7 @@ export default function Home() {
     const [description, setDescription] = useState("")
     const [Items, setItems] = useState<ItemStorge[]>([])
 
+    //Adiciona item
     async function handleAdd(){
       if (!description.trim()){
         return Alert.alert("Adicionar", "Informe a descrição para adicionar.")
@@ -35,6 +36,7 @@ export default function Home() {
       Alert.alert("Adicionado", `Adicionado ${description}`)
     }
 
+    //Altera o tipo do filtro
     async function itemsByStatus(){
       try{
       const response = await itemsStorge.getByStatus(filter)
@@ -43,7 +45,7 @@ export default function Home() {
         Alert.alert("Erro", "Não foi possível filtar os itens")
       }
     }
-
+    //remove item da lista
     async function handleRemove(id:string){
       try {
         const response = await itemsStorge.remove(id)
@@ -53,14 +55,14 @@ export default function Home() {
         Alert.alert("Remover", `Não foi possível remover.`)
       }
     }
-
+    //Confirma limpa a lista
     function handleClear(){
     Alert.alert("Limpar", "Deseja remover todos?", [
       {text: "Não", style: "cancel"},
       {text: "Sim", onPress:(()=> onClear())}
     ])
 }
-
+//Limpa a lista
 async function onClear() {
   try {
     await itemsStorge.clear()
@@ -69,7 +71,7 @@ async function onClear() {
     console.log(error)
     Alert.alert("Erro", "Não foi possível remover todos os itens.")
   }
-  
+  //Altera o status do item
 }
 async function  handleToggleItemStatus(id:string) {
   try {
@@ -80,7 +82,7 @@ async function  handleToggleItemStatus(id:string) {
     Alert.alert("Error", "Não foi possível atualizar os status.")
   }
 }
-
+  //Nusca todos os itens quando inicia a aplicação
     useEffect(()=>{
       itemsByStatus()
       //console.log(Items[2].id)
